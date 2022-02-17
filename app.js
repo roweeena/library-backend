@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const  cors = require('cors');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv')
 
-
+dotenv.config()
 global.Book = require('./api/models/bookModel');
 global.User = require('./api/models/userModel');
 const bookRoutes = require('./api/routes/bookRoutes')
@@ -11,7 +12,7 @@ const userRoutes = require('./api/routes/userRoutes')
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  `mongodb+srv://rweiner:chicken99@cluster0.8jxs7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {useNewUrlParser: true}
+  process.env.MONGOLAB_URI, {useNewUrlParser: true}
 )
 
 

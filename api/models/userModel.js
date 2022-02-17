@@ -23,6 +23,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   }
-}, {collection: 'users'}});
+}, {collection: 'users'});
 
 module.exports =  mongoose.model('User', UserSchema)

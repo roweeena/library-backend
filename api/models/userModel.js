@@ -13,7 +13,8 @@ const UserSchema = new Schema({
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   email: {
     type: String,
@@ -21,8 +22,13 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+    minlength: 6
+  },
+  books: [{
+    type:Schema.Types.ObjectId,
+    ref:"Book"
+  }]
 }, {collection: 'users'});
 
 module.exports =  mongoose.model('User', UserSchema)

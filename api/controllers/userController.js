@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 
+exports.listAllUsers = (req, res) => {
+  User.find({}, (err, users) => {
+    if(err) res.send(err);
+    console.log(res.json(users));
+  })
+};
 exports.createUser = (req, res) => {
   const newUser = new User(req.body)
   newUser.save((err, user) => {
@@ -23,3 +29,8 @@ exports.loginUser = (req,res) => {
     }
   )
 }
+exports.getAllBooks = async(req, res) => {
+
+  let foundUser = await  User.find({_id:req.body._id}).populate("books");
+  res.json(foundUser)
+};

@@ -9,11 +9,17 @@ exports.listAllBooks = (req, res) => {
 };
   exports.createBook = (req, res) => {
     const newBook = new Book(req.body)
-    newBook.save((err, book) => {
-      if (err) res.send(err);
-      res.json(book)
-    });  
-  };
+    User.findOne({}, (err, user)=> {
+      console.log('here', user, newBook);
+      newBook.owner = user
+      newBook.save((err, book) => {
+        if (err) return res.send(err);
+        console.log("saved book", book);
+        res.json(book)
+      }); //newBook.save()
+    }) //user()
+
+  };//createBook()
 
   exports.readBook = (req, res) =>{
     Book.findById(req.params.bookId, (err, book) => {
@@ -41,4 +47,4 @@ exports.listAllBooks = (req, res) => {
         _id: req.params.bookId
       })
     })
-  }
+  };

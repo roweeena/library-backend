@@ -1,6 +1,9 @@
 {
   "name": "mer-front",
   "version": "0.1.0",
+  "engines": {
+    "node": "17.4.0"
+  },
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",

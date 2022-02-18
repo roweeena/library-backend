@@ -25,9 +25,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.use(express.static(path.resolve(__dirname, "./mer-front/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "./mer-front/build", "index.html"));
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
 bookRoutes(app)

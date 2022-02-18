@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     required: true,
     minlength: 6
   },
-  books: [{
+  books: [{ //one-to-many relationship - user has many books
     type:Schema.Types.ObjectId,
     ref:"Book"
   }]

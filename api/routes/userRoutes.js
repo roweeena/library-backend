@@ -13,6 +13,6 @@ module.exports = (app) => {
       .route('users/:_id/books')
       .get(userBuilder.getAllBooks)
   app
-    .route('/users')
-    .get(userBuilder.listAllUsers)
+      .route('/users')
+      .get(userBuilder.listAllUsers)
 }

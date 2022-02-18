@@ -32,7 +32,7 @@ const BookSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  owner: {
+  owner: { //one-to-many relationship
     type: Schema.Types.ObjectId,
     ref: "User"
   }

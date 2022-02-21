@@ -37,7 +37,6 @@ exports.createUser = (req, res) => {
                     errors: [{error: err}]
                   })
                 })//catch
-
               })//bcrypt.hash
             })//bcrupt.genSalt
           }//else
@@ -51,18 +50,63 @@ exports.createUser = (req, res) => {
 
 
 exports.loginUser = (req,res) => {
-  User.findOne(
-    {email: req.body.email}, (err, user) =>{
-      if (user){
-        if (req.body.password === user.password){
-          res.send({message: "login successful", user: user})
-        } else {
-          res.send(err)
-        }
-      }
-    }
-  )
-}
+  let {email, password} = req.body
+  User.findOne({email:email}).then(user =>{
+    if(!user){
+      return res.status(404).json({
+        errors: [{user: "not found, please sign up to the library"}]
+      })
+    } else {
+      bcrypt.compare(password, user.password, function(err, isMatch){
+        if (err){
+        throw err
+      } else if (!isMatch) {
+        return res.status(400).json({errors: [{password: "incorrect password"}]
+        })
+      } else {
+          let jwt_token = createJWT(
+            user.email,
+            user._id,
+            3600
+          )//jwt_token
+
+
+          jwt.verify(jwt_token, process.env.TOKEN_SECRET, (err, decoded)=>{
+            if (err) {
+
+              res.status(500).json({errors:err})
+            }
+            if (decoded){
+              return res.status(200).json({
+                succes: true,
+                token: jwt_token,
+                user: user
+              })
+            }//if decoded
+
+          })//verify
+        } //else
+
+      })//compare
+
+    }//else
+  })//then
+  .catch(err=>{
+    res.status(500).json({errors: err})
+  })
+}//login
+
+// ).then(match =>{
+//   if(!match){
+//
+//     })
+//   }// match if
+//
+//compare
+// .catch(err =>{
+//   console.log('no mas', err);
+//   res.status(500).json({errors:err})
+// })
 exports.getAllBooks = async(req, res) => {
 
   let foundUser = await  User.find({_id:req.body._id}).populate("books");

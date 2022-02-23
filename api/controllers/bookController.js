@@ -8,10 +8,11 @@ exports.listAllBooks = (req, res) => {
   })
 };
   exports.createBook = (req, res) => {
-    const newBook = new Book(req.body)
-    User.findById({id: req.body._id}, (err, user)=> { //currently associating to first user
+    const newBook = new Book(req.body);
+     User.findOne({owner:req.body._id }, (err, user)=> { //currently associating to first user
+       console.log(err, user._id);
        // TODO: authenticate user to associate created book to correct user_id
-      console.log('here', user, newBook);
+
       newBook.owner = user
       newBook.save((err, book) => {
         if (err) return res.send(err);

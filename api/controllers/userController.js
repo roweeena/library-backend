@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {createJWT} = require ('../utils/auth')
+
+const {createJWT} = require ('../utils/auth');
 const User = mongoose.model('User');
+
 
 
 exports.listAllUsers = (req, res) => {
@@ -43,12 +45,6 @@ exports.createUser = (req, res) => {
    }) //then
 };//createUser
 
-// newUser.save((err, user) => {
-//   if (err) res.send(err);
-//   res.json(user)
-// });
-
-
 exports.loginUser = (req,res) => {
   let {email, password} = req.body
   User.findOne({email:email}).then(user =>{
@@ -67,7 +63,7 @@ exports.loginUser = (req,res) => {
           let jwt_token = createJWT(
             user.email,
             user._id,
-            3600
+            '72hr'
           )//jwt_token
 
 
@@ -96,17 +92,11 @@ exports.loginUser = (req,res) => {
   })
 }//login
 
-// ).then(match =>{
-//   if(!match){
-//
-//     })
-//   }// match if
-//
-//compare
-// .catch(err =>{
-//   console.log('no mas', err);
-//   res.status(500).json({errors:err})
-// })
+exports.getProfile =  (checkAuth(), req, res =>{
+
+  console.log('Profile', req.user);
+})
+
 exports.getAllBooks = async(req, res) => {
 
   let foundUser = await  User.find({_id:req.body._id}).populate("books");

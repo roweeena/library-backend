@@ -15,4 +15,8 @@ module.exports = (app) => {
   app
       .route('/users')
       .get(userBuilder.listAllUsers)
+
+  app
+      .route('/profile', checkAuth())
+      .get(userBuilder.getProfile)
 }
